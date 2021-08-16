@@ -9,7 +9,7 @@ public class Bomb : MonoBehaviour
     private void Update()
     {
         duration -= Time.deltaTime;
-        Debug.Log(duration);
+
         if(duration <= 0)
         {
             Explode();

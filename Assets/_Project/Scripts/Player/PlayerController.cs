@@ -13,6 +13,7 @@ public enum Type
 
 public class PlayerController : MonoBehaviour
 {
+    public bool hasBomb { get; private set; }
     public float moveSpeed = 5;
     public float turnSpeed = 15;
 
@@ -21,11 +22,14 @@ public class PlayerController : MonoBehaviour
 
     protected NavMeshAgent agent;
     protected Animator animator;
+    protected Transform bombTransfrom;
     
     protected void OnEnable()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        bombTransfrom = transform.Find("BombPosition");
     }
     
     public void Move(Vector3 movement)
@@ -48,9 +52,16 @@ public class PlayerController : MonoBehaviour
 
     
     [ContextMenu("HoldBomb")]
-    public void HoldBomb()
+    public void HoldBomb(Transform bomb)
     {
+        bomb.SetParent(bombTransfrom);
+        bomb.localPosition = Vector3.zero;
+        hasBomb = true;
         StartCoroutine(Stun());
+    }
+    public void ReleaseBomb()
+    {
+        hasBomb = false;
     }
     private IEnumerator Stun()
     {
@@ -77,6 +88,7 @@ public class PlayerController : MonoBehaviour
         death.PlayEffect();
     }
 }
+
 [System.Serializable]
 public class Stun
 {
@@ -105,7 +117,9 @@ public class Death
     {
         if(deathEffects.Length > 0)
         {
-            deathEffects[Random.Range(0, deathEffects.Length)].Play(); 
+            ParticleSystem particleSystem = deathEffects[Random.Range(0, deathEffects.Length)];
+            particleSystem.gameObject.SetActive(true); 
+            particleSystem.Play(); 
         }
     }
 }

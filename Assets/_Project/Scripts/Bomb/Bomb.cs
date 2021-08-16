@@ -4,22 +4,12 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    public LayerMask CarrierLayerMask;
     public float duration;
    
-    private readonly float radius = 1;
-    private readonly float maxDistance = 0.5f;
-
-    private PlayerController playerController;
-
-    private void Start()
-    {
-        duration = 30;
-    }
     private void Update()
     {
         duration -= Time.deltaTime;
-
+        Debug.Log(duration);
         if(duration <= 0)
         {
             Explode();
@@ -28,7 +18,9 @@ public class Bomb : MonoBehaviour
 
     private void Explode()
     {
-        playerController.Die();
+        GameLogic.Instance.ExcludePlayer();
+
+        Destroy(gameObject, 0.1f);
     }
 
 

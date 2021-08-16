@@ -10,28 +10,102 @@ public enum Type
 }
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5;
     public float turnSpeed = 15;
 
-    private NavMeshAgent agent;
-    private Animator animator;
-    private void OnEnable()
+    [SerializeField] private Stun stun;
+    [SerializeField] private Death death;
+
+    protected NavMeshAgent agent;
+    protected Animator animator;
+    
+    protected void OnEnable()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
-
+    
     public void Move(Vector3 movement)
     {
-        agent.Move(movement.normalized * Time.fixedDeltaTime * moveSpeed);
+        if (stun.isStunned)
+            return;
+        
+        if (death.isDead)
+            return;
+
+        agent.Move(movement * Time.fixedDeltaTime * moveSpeed);
         animator.SetFloat("Movement", movement.magnitude);
 
         if(movement.magnitude > 0.01f)
         {
             Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movement), Time.fixedDeltaTime * turnSpeed);
             transform.rotation = smoothRotation;
+        }
+    }
+
+    
+    [ContextMenu("HoldBomb")]
+    public void HoldBomb()
+    {
+        StartCoroutine(Stun());
+    }
+    private IEnumerator Stun()
+    {
+        stun.isStunned = true;
+        animator.SetBool("Dizzy", true);
+
+        stun.PlayEffect();
+        yield return new WaitForSeconds(stun.stunDuration);
+       
+        stun.isStunned = false;
+        animator.SetBool("Dizzy", false);
+
+        stun.StopEffect();
+    }
+    public void Die()
+    {
+        StartCoroutine(RoutineDie());
+    }
+    private IEnumerator RoutineDie()
+    {
+        animator.SetTrigger("Die");
+        yield return new WaitForSeconds(1);
+        death.isDead = true;
+        death.PlayEffect();
+    }
+}
+[System.Serializable]
+public class Stun
+{
+    public ParticleSystem stunEffect;
+    public float stunDuration;
+    public bool isStunned;
+
+    public void PlayEffect()
+    {
+        if (this.stunEffect != null)
+            this.stunEffect.Play();
+    }
+    public void StopEffect()
+    {
+        if (this.stunEffect != null)
+            this.stunEffect.Stop();
+    }
+}
+[System.Serializable]
+public class Death
+{
+    public ParticleSystem[] deathEffects;
+    public bool isDead;
+
+    public void PlayEffect()
+    {
+        if(deathEffects.Length > 0)
+        {
+            deathEffects[Random.Range(0, deathEffects.Length)].Play(); 
         }
     }
 }

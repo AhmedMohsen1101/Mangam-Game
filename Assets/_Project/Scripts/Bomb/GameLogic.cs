@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GameLogic : Singleton<GameLogic>
+public class GameLogic : MonoBehaviour
 {
+    public static GameLogic Instance;
     private List<PlayerController> players = new List<PlayerController>(); 
     private PlayerController currentCarrier;
 
-    private GameObject currentBomb;
-    private void OnEnable()
+    [SerializeField] private GameObject currentBomb;
+    private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+
         players = FindObjectsOfType<PlayerController>().ToList();
 
-        Debug.Log("Players Count " + players.Count);
-
+       
         StartCoroutine(StartNewRound());
     }
 
@@ -24,29 +27,37 @@ public class GameLogic : Singleton<GameLogic>
             oldPlayer.ReleaseBomb();
 
         currentCarrier = newCarrier;
+
         currentCarrier.HoldBomb(currentBomb.transform);
+        
+        //Debug.Log(oldPlayer.gameObject.name + " " + newCarrier.gameObject.name + " " + currentBomb.name);
     }
 
     public void ExcludePlayer()
     {
-        if (players.Contains(currentCarrier))
-        {
-            currentCarrier.Die();
-            players.Remove(currentCarrier);
+        PlayerController player = currentCarrier;
+        players.Remove(currentCarrier);
+        player.Die();
 
-            StartCoroutine(StartNewRound());
-        }
+        StopAllCoroutines();
+
+        StartCoroutine(StartNewRound());
+        
     }
-
 
     private IEnumerator StartNewRound()
     {
-        yield return new WaitForSeconds(5);
-
+        if(players.Count == 1)
+        {
+            //Win Condition
+            yield break;
+        }
+        yield return new WaitForSeconds(1);
         currentBomb = CreateBomb();
         int randomPlayerIndex = Random.Range(0, players.Count);
         TransferBomb(null ,players[randomPlayerIndex]);
         Debug.Log("New Round");
+        yield break;
     }
 
     private GameObject CreateBomb()

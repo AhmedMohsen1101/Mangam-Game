@@ -13,7 +13,7 @@ public enum Type
 
 public class PlayerController : MonoBehaviour
 {
-    public bool hasBomb { get; private set; }
+    public bool hasBomb;
     public float moveSpeed = 5;
     public float turnSpeed = 15;
 
@@ -54,9 +54,11 @@ public class PlayerController : MonoBehaviour
     [ContextMenu("HoldBomb")]
     public void HoldBomb(Transform bomb)
     {
+        bomb.SetParent(null);
         bomb.SetParent(bombTransfrom);
         bomb.localPosition = Vector3.zero;
         hasBomb = true;
+        Debug.Log(this.gameObject.name + " Hold Bomb");
         StartCoroutine(Stun());
     }
     public void ReleaseBomb()
@@ -82,10 +84,13 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator RoutineDie()
     {
-        animator.SetTrigger("Die");
-        yield return new WaitForSeconds(1);
         death.isDead = true;
+        animator.SetTrigger("Die");
+
+        yield return new WaitForSeconds(0.2f);
         death.PlayEffect();
+        yield return new WaitForSeconds(2.3f);
+        Destroy(gameObject);
     }
 }
 
@@ -118,7 +123,8 @@ public class Death
         if(deathEffects.Length > 0)
         {
             ParticleSystem particleSystem = deathEffects[Random.Range(0, deathEffects.Length)];
-            particleSystem.gameObject.SetActive(true); 
+            particleSystem.gameObject.SetActive(true);
+            LeanTween.moveLocalY(particleSystem.gameObject, 5f, 2);
             particleSystem.Play(); 
         }
     }

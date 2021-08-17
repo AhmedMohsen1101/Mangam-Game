@@ -21,12 +21,11 @@ public class Interactable : MonoBehaviour
 
         PlayerController enemy = collier.GetComponentInParent<PlayerController>();
 
-        if (enemy.hasBomb)
+        if (playerController.hasBomb)
         {
             Debug.Log(collier.transform.parent.name);
 
-            GameLogic.Instance.TransferBomb(playerController, enemy);
-            StartCoroutine(CoolDown());
+            StartCoroutine(CatchPlayer(enemy));
         }
       
     }
@@ -34,11 +33,17 @@ public class Interactable : MonoBehaviour
     /// To Prevent trigger after the bomb transfer 
     /// </summary>
     /// <returns></returns>
-    private IEnumerator CoolDown()
+    private IEnumerator CatchPlayer(PlayerController enemy)
     {
         canTrigger = false;
+        
+        yield return new WaitForEndOfFrame();
+        GameLogic.Instance.TransferBomb(playerController, enemy);
+        
         yield return new WaitForSeconds(3);
         canTrigger = true;
     }
+
+    
 
 }

@@ -95,7 +95,7 @@ QualitySettings:
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
-    antiAliasing: 2
+    antiAliasing: 0
     softParticles: 0
     softVegetation: 1
     realtimeReflectionProbes: 1
@@ -118,7 +118,7 @@ QualitySettings:
       type: 2}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 1
+    Android: 2
     Lumin: 2
     Nintendo Switch: 2
     PS4: 2
@@ -127,5 +127,5 @@ QualitySettings:
     WebGL: 1
     Windows Store Apps: 2
     XboxOne: 2
-    iPhone: 1
+    iPhone: 2
     tvOS: 1

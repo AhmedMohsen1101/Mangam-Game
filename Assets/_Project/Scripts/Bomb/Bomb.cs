@@ -7,14 +7,14 @@ public class Bomb : MonoBehaviour
     public float duration;
     public GameObject renderedObject;
     public ParticleSystem explosionEffect;
-    public ParticleSystem BombFuse;
+    public ParticleSystem explosionTextEffect;
 
     private bool isExplosed = false;
     private void Update()
     {
         duration -= Time.deltaTime;
 
-        if(duration <= 0)
+        if (duration <= 0)
         {
             if (!isExplosed)
                 Explode();
@@ -30,9 +30,6 @@ public class Bomb : MonoBehaviour
         if (renderedObject != null)
             renderedObject.SetActive(false);
 
-        if (BombFuse != null)
-            BombFuse.Stop();
-
         if (explosionEffect != null)
         {
             explosionEffect.gameObject.SetActive(true);
@@ -40,7 +37,11 @@ public class Bomb : MonoBehaviour
             CameraManager.Instance.ShakeCamera(01f);
             //Destroy(this.gameObject, explosionEffect.duration + 0.5f);
         }
-           
+        if (explosionTextEffect != null)
+        {
+            explosionTextEffect.gameObject.SetActive(true);
+            explosionTextEffect.Play();
+        }
     }
 
 

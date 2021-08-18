@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour
 {
     private VariableJoystick joystick;
     private PlayerController playerController;
-    private CinemachineVirtualCamera cinemachineVirtual;
+    private CinemachineStateDrivenCamera cinemachineVirtual;
 
     private Vector3 movement;
     private void OnEnable()
@@ -21,7 +21,7 @@ public class PlayerInput : MonoBehaviour
             joystick = GameObject.FindObjectOfType<VariableJoystick>();
         }
 
-        cinemachineVirtual = GameObject.Find("Player Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        cinemachineVirtual = GameObject.Find("PlayerStateDrivenCamera").GetComponent<CinemachineStateDrivenCamera>();
 
         if(cinemachineVirtual != null)
         {

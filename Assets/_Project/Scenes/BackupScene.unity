@@ -8750,6 +8750,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FogLivelyWhite
       objectReference: {fileID: 0}
+    - target: {fileID: 138890, guid: 85c42c69cd6a99a44baea39f65c67510, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 418752, guid: 85c42c69cd6a99a44baea39f65c67510, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.91
@@ -9353,7 +9357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410018395}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.51, y: 0, z: -45.97}
+  m_LocalPosition: {x: 14.02, y: 0, z: -41.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1305271880}
@@ -11736,7 +11740,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &510776202
 Transform:
@@ -14136,7 +14140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622309098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.1, y: 0, z: -22.2}
+  m_LocalPosition: {x: 38.1, y: 1.39, z: -17.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8138737}
@@ -17375,7 +17379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785263384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.6, y: 0, z: -20.5}
+  m_LocalPosition: {x: 12.02, y: 0, z: 4.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2078778563}
@@ -20846,7 +20850,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929125295}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33.06, y: 0, z: -2.28}
+  m_LocalPosition: {x: 30.3, y: 0, z: 1.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2132412230}
@@ -21071,9 +21075,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 102114, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 135564, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseYellow (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 491456, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21931,9 +21947,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 121986, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 127620, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 127620, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 141614, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 445868, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25334,7 +25362,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1727127291102212, guid: 3490f3b8d1246be478fc48cc8e4ea491, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 50
+      value: 58
       objectReference: {fileID: 0}
     - target: {fileID: 1727127291102212, guid: 3490f3b8d1246be478fc48cc8e4ea491, type: 3}
       propertyPath: m_IsActive
@@ -26385,9 +26413,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 102114, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 135564, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseYellow (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 491456, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26975,9 +27015,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 102114, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 135564, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseYellow (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 491456, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -29219,9 +29271,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 102114, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 135564, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseYellow (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 491456, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34087,7 +34151,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1569938062
 Transform:
@@ -36081,7 +36145,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 941e5d90edcf6124abcdfcb4cd6467e9, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.35
   m_Pitch: 1
   Loop: 1
@@ -36388,9 +36452,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 102114, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 135564, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseYellow
+      objectReference: {fileID: 0}
+    - target: {fileID: 161738, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 491456, guid: 7cfc30e9807ebb54e92fbc67239154cc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -39051,7 +39127,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1848746964
 Transform:
@@ -41837,9 +41913,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1569938062}
     m_Modifications:
+    - target: {fileID: 121986, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 127620, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
       propertyPath: m_Name
       value: CartoonFireTorchIntenseBlue (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127620, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 141614, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 445868, guid: c283eff9936dcf044968beb7413f7e57, type: 3}
       propertyPath: m_LocalPosition.x
@@ -45959,7 +46047,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 96bbf34d7aee725449bb8a5f1a46bfbb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.35
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

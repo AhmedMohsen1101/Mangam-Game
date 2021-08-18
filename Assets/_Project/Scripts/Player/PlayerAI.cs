@@ -9,6 +9,7 @@ public enum AIState
     Run, 
     RandomMove,
     Check,
+    FindTarget,
     Stop,
 }
 public class PlayerAI : MonoBehaviour
@@ -28,8 +29,6 @@ public class PlayerAI : MonoBehaviour
     private PlayerController playerController;
     private PlayerController detectedEnemy;
 
-    private Dictionary<PlayerController, float> nearEnemies = new Dictionary<PlayerController, float>();
-
     private bool isEnemyDetected;
     
     private void OnEnable()
@@ -37,24 +36,24 @@ public class PlayerAI : MonoBehaviour
         if (playerController == null)
             playerController = GetComponent<PlayerController>();
     }
-
-
     private void Update()
     {
         if (isEnemyDetected)
         {
-            Chase();
-            return;
+            Chase(); 
         }
-        if (nextCheckTime <= Time.time)
+        if (playerController.hasBomb && !isEnemyDetected)
+        {
+            FindTarget(); 
+        }
+
+        if (nextCheckTime <= Time.time && !playerController.hasBomb)
         {
             float rate = Random.Range(minEnemyCheckRate, maxEnemyCheckRate);
             nextCheckTime = rate + Time.time;
-
+           
             CheckEnemiesAround();
 
-            if (Random.Range(0, 5) < 5)
-                RandomMove();
         }
 
     }
@@ -68,32 +67,49 @@ public class PlayerAI : MonoBehaviour
 
         foreach (var enemyCollider in colliders)
         {
-            if (enemyCollider.transform.parent == this.gameObject)
+            PlayerController enemy = enemyCollider.GetComponentInParent<PlayerController>();
+
+            if (enemy.gameObject == this.gameObject)
                 continue;
 
-            PlayerController controller = enemyCollider.GetComponentInParent<PlayerController>();
-
-            if (playerController.hasBomb)
+            if (enemy.hasBomb)
             {
-                isEnemyDetected = true;
-                detectedEnemy = controller;
-                break;
-            }  
-
-            if (controller.hasBomb)
-            {
-                RunAwayFromEnemy();
+                if(!IsGoodDestination(enemy.transform))
+                {
+                    StopMoving();
+                    RunAwayFrom(enemy.transform);
+                    return;
+                }
+              
             }
-            
+
+            MoveRandomly();
         }
-        
     }
 
-    /// <summary>
-    /// Chase any random target
-    /// </summary>
-    private void Chase()
+    private void FindTarget()
     {
+        float checkRadius = Random.Range(minRadius, maxRadius);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, playablesLayerMask);
+
+        aIState = AIState.FindTarget;
+
+        foreach (var enemyCollider in colliders)
+        {
+            PlayerController controller = enemyCollider.GetComponentInParent<PlayerController>();
+            
+            if (controller.gameObject == this.gameObject)
+                continue;
+          
+            detectedEnemy = controller;
+            isEnemyDetected = true;
+        }
+    }
+        /// <summary>
+        /// Chase any random target
+        /// </summary>
+        private void Chase()
+        {
         chasingTime += Time.deltaTime;
 
         if(chasingTime >= maxChasingTime)
@@ -106,10 +122,17 @@ public class PlayerAI : MonoBehaviour
         if (!playerController.hasBomb)
         {
             StopMoving();
-            RunAwayFromEnemy();
+            RunAwayFrom(detectedEnemy.transform);
             ResetEnemyInfo();
             return;
         }
+
+        if (detectedEnemy == null)
+        { 
+            ResetEnemyInfo();
+            return;
+        }
+
         playerController.MoveToDestination(detectedEnemy.transform.position);
 
         aIState = AIState.Chase;
@@ -124,7 +147,7 @@ public class PlayerAI : MonoBehaviour
     #endregion
 
     #region AI Movement
-    private void RandomMove()
+    private void MoveRandomly()
     {
         if (RandomPoint(out Vector3 newPos))
             playerController.MoveToDestination(newPos);
@@ -132,17 +155,17 @@ public class PlayerAI : MonoBehaviour
         aIState = AIState.RandomMove;
     }
 
-    private void RunAwayFromEnemy()
+    private void RunAwayFrom(Transform enemy)
     {
-        if (RandomPointAway(out Vector3 newPos))
+        if (RandomPointAway(out Vector3 newPos, enemy))
             playerController.MoveToDestination(newPos);
 
         aIState = AIState.Run;
     }
-
+   
     private void StopMoving()
     {
-        playerController.StopMoving();
+        playerController.StopAgentMoving();
 
         aIState = AIState.Stop;
 
@@ -169,7 +192,16 @@ public class PlayerAI : MonoBehaviour
         return false;
     }
 
-    private bool RandomPointAway(out Vector3 result)
+    private bool IsGoodDestination(Transform enemy)
+    {
+        float distance = Vector3.Distance(transform.position, enemy.position);
+        if (distance >= 5)
+        {
+            return true;
+        }
+        return false;
+    }
+    private bool RandomPointAway(out Vector3 result, Transform enemy)
     {
         for (int i = 0; i < 100; i++)
         {
@@ -180,10 +212,16 @@ public class PlayerAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomPoint, out hit, 1, NavMesh.AllAreas))
             {
                 result = hit.position;
-                float distance = Vector3.Distance(hit.position, transform.position);
+                float distance = Vector3.Distance(hit.position, enemy.position);
                 
-                if (distance >= 15)
-                    return true;
+                if (distance >= 8)
+                {
+                    Vector3 direction = enemy.position - transform.position;
+                    float angle = Vector3.Angle(result, direction);
+
+                    if(angle >= 60)
+                        return true;
+                }
             }
         }
 

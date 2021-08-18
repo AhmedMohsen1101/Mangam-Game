@@ -9,13 +9,12 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool hasBomb;
-    public float moveSpeed = 5;
-    public float turnSpeed = 15;
-
-    [SerializeField] private Stun stun;
-    [SerializeField] private Death death;
-
+    public bool hasBomb { get; set; }
+   
+    public Movement movement;
+    public Stun stun;
+    public Death death;
+   
     protected NavMeshAgent agent;
     protected Animator animator;
     protected Transform bombTransfrom;
@@ -39,28 +38,30 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// move to a certain direction can be user be the player inputs and AI
     /// </summary>
-    /// <param name="movement"></param>
-    public void Move(Vector3 movement)
+    /// <param name="dir"></param>
+    public void Move(Vector3 dir)
     {
         if (stun.isStunned || death.isDead)
         {
-            StopMoving();
+            StopAgentMoving();
             return;
         }
 
-        if (movement.magnitude <= 0.001f)
+        if (dir.magnitude <= 0.01f)
             return;
+        
 
-        agent.Move(movement * Time.fixedDeltaTime * moveSpeed);
-        animator.SetFloat("Movement", movement.magnitude);
+        agent.Move(dir * Time.fixedDeltaTime * movement.moveSpeed);
+        animator.SetFloat("Movement", dir.magnitude);
 
-        if(movement.magnitude > 0.01f)
+        if(dir.magnitude > 0.01f)
         {
-            Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movement), Time.fixedDeltaTime * turnSpeed);
+            Quaternion smoothRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.fixedDeltaTime * movement.turnSpeed);
             transform.rotation = smoothRotation;
         }
     }
 
+  
     /// <summary>
     /// Move to a certain position ex:(chasing the player)
     /// </summary>
@@ -69,25 +70,27 @@ public class PlayerController : MonoBehaviour
     {
         if (stun.isStunned || death.isDead)
         {
-            StopMoving();
+            StopAgentMoving();
             return;
         }
 
-        animator.SetFloat("Movement", agent.velocity.magnitude);
-
-        if(!agent.hasPath)
+        float distance = Vector3.Distance(transform.position, agent.destination);
+        if(distance <= 0.75f)
         {
             agent.SetDestination(target);
         }
         
     }
 
-    public void StopMoving()
+    public void StopAgentMoving()
     {
         agent.ResetPath();
         animator.SetFloat("Movement", 0);
     }
-
+    public Vector3 GetAgentDestination()
+    {
+        return agent.destination;
+    }
 
     /// <summary>
     /// Become the carrier of the bomb
@@ -119,7 +122,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Stun()
     {
         if (agent.hasPath)
-            StopMoving();
+            StopAgentMoving();
 
         stun.isStunned = true;
         animator.SetBool("Dizzy", true);
@@ -149,7 +152,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator RoutineDie()
     {
         if (agent.hasPath)
-            StopMoving();
+            StopAgentMoving();
 
         death.isDead = true;
         animator.SetTrigger("Die");
@@ -159,6 +162,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2.1f);
         Destroy(gameObject);
     }
+
+ 
 }
 
 [System.Serializable]
@@ -202,4 +207,10 @@ public class Death
             particleSystem.Play(); 
         }
     }
+}
+[System.Serializable]
+public class Movement
+{
+    public float moveSpeed = 9;
+    public float turnSpeed = 15;
 }

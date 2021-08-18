@@ -12,6 +12,7 @@ public class CreatePlayers : MonoBehaviour
         if (gameLogic == null)
             gameLogic = GetComponent<GameLogic>();
 
+        yield return new WaitForSeconds(3);
 
         for (int i = 0; i < gameLogic.players.Count; i++)
         {
@@ -26,10 +27,10 @@ public class CreatePlayers : MonoBehaviour
             if (i != random)
                 gameLogic.players[i].GetComponent<PlayerAI>().enabled = true;
         }
+        gameLogic.enabled = true;
         yield return new WaitForSeconds(0.2f);
         gameLogic.players[random].GetComponent<PlayerInput>().enabled = true;
         
-        gameLogic.enabled = true;
     }
 
     private IEnumerator ActivatePlayer(GameObject obj)

@@ -8,14 +8,34 @@ public class Bomb : MonoBehaviour
     public GameObject renderedObject;
     public ParticleSystem explosionEffect;
     public ParticleSystem explosionTextEffect;
-
+    public AudioSource countDownSound;
     private bool isExplosed = false;
+
+    private BombGUI bombUI;
+
+    private void OnEnable()
+    {
+        if (bombUI == null)
+            bombUI = GameObject.FindObjectOfType<BombGUI>();
+
+        bombUI.SetMaxDuration(duration);
+    }
     private void Update()
     {
         duration -= Time.deltaTime;
+        
+        bombUI.UpdateSliderValue(duration);
+
+        if(duration <= 6)
+        {
+            if (countDownSound != null)
+                if (!countDownSound.isPlaying)
+                    countDownSound.Play();
+        }
 
         if (duration <= 0)
         {
+            countDownSound.Stop();
             if (!isExplosed)
                 Explode();
         }

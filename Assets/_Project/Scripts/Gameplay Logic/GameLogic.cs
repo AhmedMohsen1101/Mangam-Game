@@ -22,6 +22,7 @@ public class GameLogic : MonoBehaviour
         if (Instance == null)
             Instance = this;
 
+        StopAllCoroutines();
         StartCoroutine(StartNewRound());
     }
     
@@ -33,7 +34,10 @@ public class GameLogic : MonoBehaviour
     public void TransferBomb(PlayerController oldCarrier, PlayerController newCarrier)
     {
         if (oldCarrier != null)
+        {
             oldCarrier.ReleaseBomb();
+            CameraManager.Instance.ShakeCamera(0.25f);
+        }
 
         currentCarrier = newCarrier;
 
@@ -69,8 +73,7 @@ public class GameLogic : MonoBehaviour
         currentBomb = CreateBomb();
         int randomPlayerIndex = Random.Range(0, players.Count);
         TransferBomb(null, players[randomPlayerIndex]);
-        Debug.Log("New Round");
-        yield break;
+        OnStartRound?.Invoke();
     }
 
     private GameObject CreateBomb()

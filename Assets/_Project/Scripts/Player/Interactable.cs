@@ -19,6 +19,9 @@ public class Interactable : MonoBehaviour
         if (!canTrigger)
             return;
 
+        if(playerController.stun.isStunned || playerController.death.isDead)
+            return;
+
         PlayerController enemy = collier.GetComponentInParent<PlayerController>();
 
         if (playerController.hasBomb)
@@ -36,9 +39,8 @@ public class Interactable : MonoBehaviour
         canTrigger = false;
         
         yield return new WaitForEndOfFrame();
+
         GameLogic.Instance.TransferBomb(playerController, enemy);
-        
-        yield return new WaitForSeconds(3);
         canTrigger = true;
     }
 

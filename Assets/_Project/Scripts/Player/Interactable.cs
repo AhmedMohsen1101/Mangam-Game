@@ -23,8 +23,6 @@ public class Interactable : MonoBehaviour
 
         if (playerController.hasBomb)
         {
-            Debug.Log(collier.transform.parent.name);
-
             StartCoroutine(CatchPlayer(enemy));
         }
       

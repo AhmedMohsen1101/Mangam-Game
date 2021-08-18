@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum Type
-{
-    Player,
-    Enemy,
-}
+
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 
@@ -30,14 +26,29 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         bombTransfrom = transform.Find("BombPosition");
+       
+        //agent.speed = moveSpeed;
+        //agent.angularSpeed = turnSpeed;
+
     }
-    
+    private void Update()
+    {
+        if (agent.hasPath)
+            animator.SetFloat("Movement", agent.velocity.magnitude);
+    }
+    /// <summary>
+    /// move to a certain direction can be user be the player inputs and AI
+    /// </summary>
+    /// <param name="movement"></param>
     public void Move(Vector3 movement)
     {
-        if (stun.isStunned)
+        if (stun.isStunned || death.isDead)
+        {
+            StopMoving();
             return;
-        
-        if (death.isDead)
+        }
+
+        if (movement.magnitude <= 0.001f)
             return;
 
         agent.Move(movement * Time.fixedDeltaTime * moveSpeed);
@@ -50,46 +61,102 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
-    [ContextMenu("HoldBomb")]
+    /// <summary>
+    /// Move to a certain position ex:(chasing the player)
+    /// </summary>
+    /// <param name="target"></param>
+    public void MoveToDestination(Vector3 target)
+    {
+        if (stun.isStunned || death.isDead)
+        {
+            StopMoving();
+            return;
+        }
+
+        animator.SetFloat("Movement", agent.velocity.magnitude);
+
+        if(!agent.hasPath)
+        {
+            agent.SetDestination(target);
+        }
+        
+    }
+
+    public void StopMoving()
+    {
+        agent.ResetPath();
+        animator.SetFloat("Movement", 0);
+    }
+
+
+    /// <summary>
+    /// Become the carrier of the bomb
+    /// </summary>
+    /// <param name="bomb"></param>
     public void HoldBomb(Transform bomb)
     {
         bomb.SetParent(null);
         bomb.SetParent(bombTransfrom);
         bomb.localPosition = Vector3.zero;
+        
         hasBomb = true;
-        Debug.Log(this.gameObject.name + " Hold Bomb");
+
         StartCoroutine(Stun());
     }
+
+    /// <summary>
+    /// when transfer the bomb to another player
+    /// </summary>
     public void ReleaseBomb()
     {
         hasBomb = false;
     }
+
+    /// <summary>
+    /// A stun for a while prevent the player from moving 
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Stun()
     {
+        if (agent.hasPath)
+            StopMoving();
+
         stun.isStunned = true;
         animator.SetBool("Dizzy", true);
 
-        stun.PlayEffect();
+        stun.PlayVisualEffect();
+        stun.PlaySoundEffect();
         yield return new WaitForSeconds(stun.stunDuration);
+        stun.StopVisualEffect();
        
         stun.isStunned = false;
         animator.SetBool("Dizzy", false);
 
-        stun.StopEffect();
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public void Die()
     {
         StartCoroutine(RoutineDie());
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator RoutineDie()
     {
+        if (agent.hasPath)
+            StopMoving();
+
         death.isDead = true;
         animator.SetTrigger("Die");
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         death.PlayEffect();
-        yield return new WaitForSeconds(2.3f);
+        yield return new WaitForSeconds(2.1f);
         Destroy(gameObject);
     }
 }
@@ -98,15 +165,22 @@ public class PlayerController : MonoBehaviour
 public class Stun
 {
     public ParticleSystem stunEffect;
+    public AudioSource stunSoundEffect;
     public float stunDuration;
     public bool isStunned;
 
-    public void PlayEffect()
+    public void PlayVisualEffect()
     {
         if (this.stunEffect != null)
             this.stunEffect.Play();
+
     }
-    public void StopEffect()
+    public void PlaySoundEffect()
+    {
+        if (stunSoundEffect != null)
+            stunSoundEffect.Play();
+    }
+    public void StopVisualEffect()
     {
         if (this.stunEffect != null)
             this.stunEffect.Stop();

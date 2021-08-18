@@ -6,10 +6,12 @@ using UnityEngine;
 public class GameLogic : MonoBehaviour
 {
     public static GameLogic Instance;
+    
+    private GameObject currentBomb; //Bomb in the scene 
+    private PlayerController currentCarrier; 
+    
     private List<PlayerController> players = new List<PlayerController>(); 
-    private PlayerController currentCarrier;
 
-    [SerializeField] private GameObject currentBomb;
     private void Awake()
     {
         if (Instance == null)
@@ -17,22 +19,27 @@ public class GameLogic : MonoBehaviour
 
         players = FindObjectsOfType<PlayerController>().ToList();
 
-       
         StartCoroutine(StartNewRound());
     }
 
-    public void TransferBomb(PlayerController oldPlayer, PlayerController newCarrier)
+    /// <summary>
+    /// Transfer from player to player
+    /// </summary>
+    /// <param name="oldCarrier"></param>
+    /// <param name="newCarrier"></param>
+    public void TransferBomb(PlayerController oldCarrier, PlayerController newCarrier)
     {
-        if (oldPlayer != null)
-            oldPlayer.ReleaseBomb();
+        if (oldCarrier != null)
+            oldCarrier.ReleaseBomb();
 
         currentCarrier = newCarrier;
 
         currentCarrier.HoldBomb(currentBomb.transform);
-        
-        //Debug.Log(oldPlayer.gameObject.name + " " + newCarrier.gameObject.name + " " + currentBomb.name);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void ExcludePlayer()
     {
         PlayerController player = currentCarrier;
@@ -45,6 +52,10 @@ public class GameLogic : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Start new Round by picking random player to carry the bomb
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartNewRound()
     {
         if(players.Count == 1)

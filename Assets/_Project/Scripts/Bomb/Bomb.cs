@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     public float duration;
-    public MeshRenderer meshRenderer;
+    public GameObject renderedObject;
     public ParticleSystem explosionEffect;
     public ParticleSystem BombFuse;
 
@@ -27,8 +27,8 @@ public class Bomb : MonoBehaviour
 
         GameLogic.Instance.ExcludePlayer();
 
-        if (meshRenderer != null)
-            meshRenderer.enabled = false;
+        if (renderedObject != null)
+            renderedObject.SetActive(false);
 
         if (BombFuse != null)
             BombFuse.Stop();
@@ -37,7 +37,7 @@ public class Bomb : MonoBehaviour
         {
             explosionEffect.gameObject.SetActive(true);
             explosionEffect.Play();
-            CameraManager.Instance.ShakeCamera(1f);
+            CameraManager.Instance.ShakeCamera(01f);
             //Destroy(this.gameObject, explosionEffect.duration + 0.5f);
         }
            

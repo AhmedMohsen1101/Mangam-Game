@@ -110,10 +110,12 @@ public class GameLogic : MonoBehaviour
 
     private void WinCondition()
     {
+        mainPlayer.GetComponent<PlayerInput>().enabled = false;
 
         if (winEffect != null)
         {
-            winEffect.transform.position = mainPlayer.transform.position;
+            winEffect.transform.SetParent(mainPlayer.transform);
+            winEffect.transform.localScale = new Vector3(0, 1, 0);
             winEffect.Play();
         }
     }

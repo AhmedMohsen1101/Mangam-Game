@@ -17577,7 +17577,7 @@ GameObject:
   - component: {fileID: 783803590}
   - component: {fileID: 783803589}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameInfo Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24283,6 +24283,18 @@ PrefabInstance:
     - target: {fileID: 453912, guid: bdfc2e8cc9f84144793e5547753ada5a, type: 3}
       propertyPath: m_LocalScale.z
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19818396, guid: bdfc2e8cc9f84144793e5547753ada5a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19822420, guid: bdfc2e8cc9f84144793e5547753ada5a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19849738, guid: bdfc2e8cc9f84144793e5547753ada5a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdfc2e8cc9f84144793e5547753ada5a, type: 3}
@@ -40642,7 +40654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Victory
+  m_text: Game Over!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -40651,8 +40663,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278244863
-  m_fontColor: {r: 1, g: 0.8365737, b: 0, a: 1}
+    rgba: 4278206463
+  m_fontColor: {r: 1, g: 0.24644172, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -40669,7 +40681,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 110.1
+  m_fontSize: 98.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

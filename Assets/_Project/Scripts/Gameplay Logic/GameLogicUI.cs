@@ -26,24 +26,26 @@ public class GameLogicUI : MonoBehaviour
         roundsDisplayText.enabled = true;
         roundsDisplayText.text = "New Round";
 
-        LeanTween.scale(displayText.gameObject, Vector3.one * 1.5f, 1).setEasePunch();
+        LeanTween.scale(roundsDisplayText.gameObject, Vector3.one * 2f, 2).setEasePunch();
         StartCoroutine(DisableText());
     }
 
+    [ContextMenu("OnLose")]
     private void OnVictory()
     {
         displayText.enabled = true;
-        displayText.text = "Victory";
+        displayText.text = "Victory!";
 
-        LeanTween.scale(displayText.gameObject, Vector3.one * 1.5f, 1).setEasePunch();
+        LeanTween.scale(displayText.gameObject, Vector3.one * 2f, 3).setEasePunch();
     }
 
+    [ContextMenu("OnLose")]
     private void OnLose()
     {
         displayText.enabled = true;
-        displayText.text = "Game Over";
+        displayText.text = "Game Over!!";
 
-        LeanTween.scale(displayText.gameObject, Vector3.one * 1.5f, 1).setEasePunch();
+        LeanTween.scale(displayText.gameObject, Vector3.one * 2f, 3).setEasePunch();
     }
 
    private IEnumerator DisableText()

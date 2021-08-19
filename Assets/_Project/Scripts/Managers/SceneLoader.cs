@@ -12,21 +12,15 @@ public class SceneLoader : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-        //else
-        //{
-        //    Destroy(Instance.gameObject);
-        //    Instance = this;
-        //}
     }
 
     public void LoadScene(int value)
     {
-        LoadingCanvas.enabled = true;
         SceneManager.LoadSceneAsync(value);
     }
     public void LoadScene(string value)
     {
-        LoadingCanvas.enabled = true;
         SceneManager.LoadSceneAsync(value);
     }
+     
 }

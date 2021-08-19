@@ -7,12 +7,24 @@ public class CreatePlayers : MonoBehaviour
     private GameLogic gameLogic;
     [SerializeField] private ParticleSystem spawnEffect;
     [SerializeField] private AudioSource spawnSoundEffect;
-    private IEnumerator Start()
+
+    /// <summary>
+    /// To Intial the players in the scene with cool effects
+    /// </summary>
+    /// <returns></returns>
+    private void Start()
     {
         if (gameLogic == null)
             gameLogic = GetComponent<GameLogic>();
+        FadingUI.Instance.FadeOut();
 
-        yield return new WaitForSeconds(3);
+        StartCoroutine(RountineSpawnPlayers());
+    }
+
+
+    private IEnumerator RountineSpawnPlayers()
+    {
+        yield return new WaitForSeconds(5);
 
         for (int i = 0; i < gameLogic.players.Count; i++)
         {
@@ -20,19 +32,9 @@ public class CreatePlayers : MonoBehaviour
             StartCoroutine(ActivatePlayer(gameLogic.players[i].gameObject));
         }
 
-        int random = Random.Range(0, gameLogic.players.Count);
-
-        for (int i = 0; i < gameLogic.players.Count; i++)
-        {
-            if (i != random)
-                gameLogic.players[i].GetComponent<PlayerAI>().enabled = true;
-        }
-        gameLogic.enabled = true;
-        yield return new WaitForSeconds(0.2f);
-        gameLogic.players[random].GetComponent<PlayerInput>().enabled = true;
-        
+        StartCoroutine (GetMainPlayerRandomly());
     }
-
+        
     private IEnumerator ActivatePlayer(GameObject obj)
     {
         Vector3 effectPos = obj.transform.position;
@@ -44,5 +46,23 @@ public class CreatePlayers : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         obj.SetActive(true);
         CameraManager.Instance.ShakeCamera(0.25f);
+    }
+
+
+    private IEnumerator GetMainPlayerRandomly()
+    {
+        int playerIndex = Random.Range(0, gameLogic.players.Count);
+
+        for (int i = 0; i < gameLogic.players.Count; i++)
+        {
+            if (i != playerIndex)
+                gameLogic.players[i].GetComponent<PlayerAI>().enabled = true;
+        }
+        gameLogic.enabled = true;
+        yield return new WaitForSeconds(0.2f);
+        
+        gameLogic.SetMainPlayer(playerIndex);
+        
+        GetComponent<GameLogicUI>().enabled = true;
     }
 }

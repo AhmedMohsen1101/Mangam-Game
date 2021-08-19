@@ -14,12 +14,12 @@ public enum AIState
 }
 public class PlayerAI : MonoBehaviour
 {
-    public AIState aIState;
-    [SerializeField] private Transform worldCenter;
+    public AIState aIState; //Not use just for dubegging 
+    [SerializeField] private Transform worldCenter; 
     [SerializeField] private float minEnemyCheckRate = 2f; //sec
     [SerializeField] private float maxEnemyCheckRate = 5f; //sec
-    [SerializeField] private float minRadius = 2f; //sec
-    [SerializeField] private float maxRadius = 7f; //sec
+    [SerializeField] private float minRadius = 2f; 
+    [SerializeField] private float maxRadius = 7f; 
     [SerializeField] private float maxChasingTime = 30;
     [SerializeField] private LayerMask playablesLayerMask; 
 

@@ -6,22 +6,26 @@ using UnityEngine.Events;
 public class GameLogic : MonoBehaviour
 {
     public static GameLogic Instance;
-
     public List<PlayerController> players = new List<PlayerController>();
 
+    [SerializeField] private ParticleSystem winEffect;
+    
     private GameObject currentBomb; //Bomb in the scene 
     private PlayerController currentCarrier;
+    public PlayerController mainPlayer { get; set; }
+
 
     #region Delegations
     public UnityAction OnStartRound;
     public UnityAction OnVictory;
+    public UnityAction OnLose;
     #endregion
 
     private void OnEnable()
     {
         if (Instance == null)
             Instance = this;
-
+        
         StopAllCoroutines();
         StartCoroutine(StartNewRound());
     }
@@ -58,18 +62,32 @@ public class GameLogic : MonoBehaviour
         StartCoroutine(StartNewRound());
         
     }
+
+    public void SetMainPlayer(int playerIndex)
+    {
+        mainPlayer = players[playerIndex];
+        mainPlayer.GetComponent<PlayerInput>().enabled = true;
+    }
     /// <summary>
     /// Start new Round by picking random player to carry the bomb
     /// </summary>
     /// <returns></returns>
     private IEnumerator StartNewRound()
     {
+        if(mainPlayer != null && mainPlayer.death.isDead)
+        {
+            OnLose?.Invoke();
+            LoseCondition();
+            yield break;
+        }
         if(players.Count == 1)
         {
             OnVictory?.Invoke();
+            WinCondition();
             yield break;
         }
         yield return new WaitForSeconds(1);
+
         currentBomb = CreateBomb();
         int randomPlayerIndex = Random.Range(0, players.Count);
         TransferBomb(null, players[randomPlayerIndex]);
@@ -79,5 +97,24 @@ public class GameLogic : MonoBehaviour
     private GameObject CreateBomb()
     {
         return Instantiate(Resources.Load("Bomb")) as GameObject;
+    }
+
+    private void LoseCondition()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].StopAgentMoving();
+            players[i].GetComponent<PlayerAI>();
+        }
+    }
+
+    private void WinCondition()
+    {
+
+        if (winEffect != null)
+        {
+            winEffect.transform.position = mainPlayer.transform.position;
+            winEffect.Play();
+        }
     }
 }

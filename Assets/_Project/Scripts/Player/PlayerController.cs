@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         }
 
         float distance = Vector3.Distance(transform.position, agent.destination);
-        if(distance <= 0.75f)
+        if(distance <= 3f)
         {
             agent.SetDestination(target);
         }
